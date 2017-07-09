@@ -2,7 +2,8 @@
 import cv2  
 import numpy as np    
   
-img = cv2.imread("010102_cut.jpg")  
+#img = cv2.imread("010102_cut.jpg")  
+img = cv2.imread("010121.jpg")  
   
 #img = cv2.GaussianBlur(img,(3,3),0)  
 #edges = cv2.Canny(img, 50, 150, apertureSize = 3)  
@@ -30,3 +31,22 @@ for line in lines[0]:
         cv2.line(result, pt1, pt2, (0,255,0), 2) 
 
         cv2.imwrite('lines.jpg',result)
+
+
+
+
+def _line(path=None):
+    '''
+    直线检测
+    '''
+    minLineLength = 200
+    maxLineGap = 100
+    lines = cv2.HoughLinesP(self.thresh,1,np.pi/180,118,minLineLength,maxLineGap)
+    for line in lines[:,:,:]:
+        x1,y1,x2,y2 = line[0,:]
+        #print x1,y1,x2,y2
+        cv2.line(self.image,(x1,y1),(x2,y2),(0,255,0),1)
+        #输出答题卡区域图像
+        ans_lst = os.path.splitext(self.image_path)
+        ans_path = ans_lst[0] + '_line' + ans_lst[1]
+        cv2.imwrite(ans_path,self.image)
